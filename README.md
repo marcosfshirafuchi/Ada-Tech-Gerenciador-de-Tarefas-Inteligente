@@ -1,14 +1,14 @@
----
-marp: true
-theme: default
-class:
-  - lead
-  - invert
-style: |
-  table {
-    font-size: 0.95em;
-  }
----
+# <a href="https://imgbb.com/"><img src="https://i.ibb.co/wNCRx9z/image-2025-01-04-T23-13-02-901-Z.png" alt="image-2025-01-04-T23-13-02-901-Z" border="0" width =150 heigth = 100></a> Desenvolva + : Gerenciador de Tarefas Inteligente
+
+#### Desenvolvido na linguagem Java por:
+- [Aline Wornath](https://github.com/AlineWornath)
+- [Bruno Madureira](https://github.com/brumadu)
+- [Marcos Shirafuchi](https://github.com/marcosfshirafuchi)
+
+# Principais Tecnologias
+
+- <img width="70px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original-wordmark.svg" title = "Java" /> <b>Java 21 :</b> Utilizaremos a versão LTS mais recente do Java para tirar vantagem das últimas inovações que essa linguagem robusta e amplamente utilizada oferece;
+- <img width="70px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg" title = "IntelliJIDEA" /> <b>IntelliJIDEA :</b> Utilizei o IntelliJIDEA como a IDEA para fazer os programas em Java;
 
 # 📌 Desafio: Gerenciador de Tarefas Inteligente
 
@@ -63,3 +63,5 @@ Para resolver esse desafio, recomenda-se o uso dos seguintes recursos:
 🚀 **O projeto será desenvolvido inteiramente durante as aulas**, em um total de **6 horas**, com cada funcionalidade sendo implementada de forma incremental.
 
 Boa sorte e mãos à obra! 💻🔥
+
+## Diagrama de classes
