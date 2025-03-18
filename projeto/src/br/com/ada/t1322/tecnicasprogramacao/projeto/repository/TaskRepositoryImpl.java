@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 
 public class TaskRepositoryImpl implements TaskRepository {
+
     private List<Task> tasks = new ArrayList<>();
     private long count = 1;
 
@@ -37,6 +39,16 @@ public class TaskRepositoryImpl implements TaskRepository {
         //Predicate<Task> verificarStatus = task -> task.getStatus().getDescricao().equalsIgnoreCase(status);
         Function<String, List<Task>> verificarStatus = s -> s.compareToIgnoreCase(status) == 0 ? tasks : List.of();
         return (List<Task>) verificarStatus;
+    }
+
+    @Override
+    public List<Task> findByStatus(Task.Status status) {
+        return List.of();
+    }
+
+    @Override
+    public List<Task> findBy(Predicate<Task> predicate) {
+        return List.of();
     }
 
     @Override

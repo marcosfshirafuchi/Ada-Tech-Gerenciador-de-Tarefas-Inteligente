@@ -1,31 +1,33 @@
 package br.com.ada.t1322.tecnicasprogramacao.projeto.service;
 
+import br.com.ada.t1322.tecnicasprogramacao.projeto.dto.TaskUpdateRequest;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.model.Task;
-import br.com.ada.t1322.tecnicasprogramacao.projeto.repository.TaskRepositoryImpl;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
-public class TaskServiceImpl implements TaskService{
-    public TaskServiceImpl(TaskRepositoryImpl taskRepository) {
-        if (taskRepository == null) {
-            throw new IllegalArgumentException("TaskRepository não pode ser nulo.");
-        }
-    }
+public class TaskServiceImpl implements TaskService {
+
 
     @Override
-    public Task validateAndSave(Task task) {
+    public Task save(Task task) {
         return null;
     }
 
     @Override
-    public List<Task> findAll(Comparator<Task> orderBy) {
+    public List<Task> findAll(Optional<Comparator<Task>> orderBy) {
         return List.of();
     }
 
     @Override
-    public List<Task> findByStatus(String status, Comparator<Task> orderBy) {
+    public List<Task> findByStatus(Task.Status status, Optional<Comparator<Task>> orderBy) {
+        return List.of();
+    }
+
+    @Override
+    public List<Task> findBy(Predicate<Task> predicate, Optional<Comparator<Task>> orderBy) {
         return List.of();
     }
 
@@ -35,17 +37,37 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
+    public Task getById(Long id) {
+        return TaskService.super.getById(id);
+    }
+
+    @Override
     public boolean deleteById(Long id) {
         return false;
     }
 
     @Override
-    public void deleteAll() {
+    public void clearAll() {
 
     }
 
     @Override
-    public void notifyUpcomingDeadlines() {
+    public Task updateTask(TaskUpdateRequest updateRequest) {
+        return null;
+    }
+
+    @Override
+    public Task updateStatus(Long id, Task.Status newStatus) {
+        return null;
+    }
+
+    @Override
+    public void stopNotifier() {
+
+    }
+
+    @Override
+    public void startNotifier() {
 
     }
 }
