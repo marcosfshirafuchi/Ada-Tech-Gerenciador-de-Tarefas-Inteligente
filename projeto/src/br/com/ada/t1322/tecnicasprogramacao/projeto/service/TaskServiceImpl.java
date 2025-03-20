@@ -1,73 +1,51 @@
 package br.com.ada.t1322.tecnicasprogramacao.projeto.service;
 
-import br.com.ada.t1322.tecnicasprogramacao.projeto.dto.TaskUpdateRequest;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.model.Task;
+import br.com.ada.t1322.tecnicasprogramacao.projeto.repository.TaskRepository;
+import br.com.ada.t1322.tecnicasprogramacao.projeto.service.notification.Notifier;
+import br.com.ada.t1322.tecnicasprogramacao.projeto.service.validation.TaskValidator;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl extends AbstractTaskService {
 
+    public static final Comparator<Task> DEFAULT_TASK_SORT = Comparator.comparing(Task::getDeadline);
+    private static TaskServiceImpl INSTANCE;
 
-    @Override
-    public Task save(Task task) {
-        return null;
+    private TaskServiceImpl(TaskRepository taskRepository, TaskValidator taskValidator, Notifier notifier) {
+        super(taskRepository, taskValidator, notifier);
+    }
+
+    public static TaskServiceImpl create(TaskRepository taskRepository, TaskValidator taskValidator, Notifier notifier) {
+        if (INSTANCE == null) {
+            synchronized (TaskServiceImpl.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new TaskServiceImpl(taskRepository, taskValidator, notifier);
+                }
+            }
+        }
+        return INSTANCE;
     }
 
     @Override
     public List<Task> findAll(Optional<Comparator<Task>> orderBy) {
-        return List.of();
+        // Você deve usar o repository que já está disponível via heranca.
+        // Por exemplo return taskRepository.findAll();
+        // Mas lembre que precisa aplicar o ordenador (orderBy) antes de retornar a lista
+        return null;
     }
 
     @Override
     public List<Task> findByStatus(Task.Status status, Optional<Comparator<Task>> orderBy) {
-        return List.of();
+        return null;
     }
 
     @Override
     public List<Task> findBy(Predicate<Task> predicate, Optional<Comparator<Task>> orderBy) {
-        return List.of();
-    }
-
-    @Override
-    public Optional<Task> findById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Task getById(Long id) {
-        return TaskService.super.getById(id);
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        return false;
-    }
-
-    @Override
-    public void clearAll() {
-
-    }
-
-    @Override
-    public Task updateTask(TaskUpdateRequest updateRequest) {
         return null;
     }
 
-    @Override
-    public Task updateStatus(Long id, Task.Status newStatus) {
-        return null;
-    }
-
-    @Override
-    public void stopNotifier() {
-
-    }
-
-    @Override
-    public void startNotifier() {
-
-    }
 }
