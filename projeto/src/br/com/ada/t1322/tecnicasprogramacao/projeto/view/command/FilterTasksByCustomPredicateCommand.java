@@ -8,33 +8,28 @@ import br.com.ada.t1322.tecnicasprogramacao.projeto.view.View;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
-public class FilterTasksByStatusCommand implements Command {
+public class FilterTasksByCustomPredicateCommand implements Command {
 
     private final View view;
     private final TaskController taskController;
 
-    public FilterTasksByStatusCommand(View view, TaskController taskController) {
+    public FilterTasksByCustomPredicateCommand(View view, TaskController taskController) {
         this.view = view;
         this.taskController = taskController;
     }
 
     @Override
     public void execute() {
-        String statusInput = view.getInput("🔎 Digite o status para filtrar (Pendente, Em andamento, Bloqueado, Concluído)");
-        Task.Status status;
-        try {
-            status = Task.Status.fromString(statusInput);
-        } catch (IllegalArgumentException e) {
-            view.showMessage("❌ Status inválido. Tente novamente.");
-            return;
-        }
-
+        String keyword = view.getInput("🔎 Digite uma palavra-chave para buscar no título ou descrição");
         Optional<Comparator<Task>> orderBy = getSortingMethod();
-        List<Task> tasks = taskController.getTasksByStatus(status, orderBy);
+
+        Predicate<Task> predicate = task -> task.getTitle().contains(keyword) || task.getDescription().contains(keyword);
+        List<Task> tasks = taskController.getTasksBy(predicate, orderBy);
 
         if (tasks.isEmpty()) {
-            view.showMessage("📭 Nenhuma tarefa encontrada com esse status.");
+            view.showMessage("📭 Nenhuma tarefa encontrada.");
         } else {
             tasks.forEach(task -> view.showMessage(task.toString()));
         }

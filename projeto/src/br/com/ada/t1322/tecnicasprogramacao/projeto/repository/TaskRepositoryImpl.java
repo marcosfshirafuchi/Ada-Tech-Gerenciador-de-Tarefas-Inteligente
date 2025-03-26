@@ -5,43 +5,70 @@ import br.com.ada.t1322.tecnicasprogramacao.projeto.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 
 public class TaskRepositoryImpl implements TaskRepository {
-    private List<Task> tasks = new ArrayList<>();
-    private long count = 1;
+
+    private static final TaskRepositoryImpl INSTANCE = new TaskRepositoryImpl();
+    private static final List<Task> tasks = new ArrayList<>();
+    private static Long idCounter = 1L;
+
+    private TaskRepositoryImpl() {
+        // Construtor privado para impedir instanciação externa
+    }
+
+    public static TaskRepositoryImpl getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Task save(Task task) {
-        if (!tasks.isEmpty()) {
-            count = tasks.size();
-            count++;
-            task.setId(count);
+        if (task.getId() == null) {
+            task.setId(idCounter++);
             tasks.add(task);
-            return task;
         } else {
-            task.setId(count);
-            tasks.add(task);
-            return task;
+            IntStream.range(0, tasks.size())
+                    .filter(i -> tasks.get(i).getId().equals(task.getId()))
+                    .findFirst()
+                    .ifPresentOrElse(
+                            index -> tasks.set(index, task),
+                            () -> tasks.add(task)
+                    );
         }
+        return task;
     }
 
     @Override
     public List<Task> findAll() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 
     @Override
     public List<Task> findByStatus(String status) {
-        //Predicate<Task> verificarStatus = task -> task.getStatus().getDescricao().equalsIgnoreCase(status);
-        Function<String, List<Task>> verificarStatus = s -> s.compareToIgnoreCase(status) == 0 ? tasks : List.of();
-        return (List<Task>) verificarStatus;
+        return tasks.stream()
+                .filter(task -> task.getStatus().getDescricao().equalsIgnoreCase(status))
+                .toList();
+    }
+
+    @Override
+    public List<Task> findByStatus(Task.Status status) {
+        return tasks.stream()
+                .filter(task -> task.getStatus() == status)
+                .toList();
+    }
+
+    @Override
+    public List<Task> findBy(Predicate<Task> predicate) {
+        return tasks.stream().filter(predicate).toList();
     }
 
     @Override
     public Optional<Task> findById(Long id) {
-        return findById(id);
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst();
     }
 
     @Override
@@ -52,5 +79,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void deleteAll() {
         tasks.clear();
+        idCounter = 1L;
     }
 }
+
