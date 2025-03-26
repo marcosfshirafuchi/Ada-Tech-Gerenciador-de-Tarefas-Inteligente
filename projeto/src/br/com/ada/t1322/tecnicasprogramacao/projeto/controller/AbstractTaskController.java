@@ -26,6 +26,7 @@ public abstract class AbstractTaskController implements TaskController {
     @Override
     public final Task createTask(String title, String description, String deadline, Task.Status status) {
         validateTitle(title);
+        validateDescription(description);
         validateDeadline(deadline);
         validateStatus(status);
 
@@ -64,4 +65,5 @@ public abstract class AbstractTaskController implements TaskController {
     public Task updateTaskStatus(Long id, Task.Status newStatus) {
         return taskService.updateStatus(id, newStatus);
     }
+
 }

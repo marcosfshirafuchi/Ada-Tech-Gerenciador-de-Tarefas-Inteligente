@@ -1,108 +1,69 @@
 package br.com.ada.t1322.tecnicasprogramacao.projeto.service;
 
-import br.com.ada.t1322.tecnicasprogramacao.projeto.dto.TaskUpdateRequest;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.model.Task;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.repository.TaskRepository;
-import br.com.ada.t1322.tecnicasprogramacao.projeto.service.notification.TaskNotifier;
-import br.com.ada.t1322.tecnicasprogramacao.projeto.service.validation.TaskValidator;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-public class TaskServiceImpl implements TaskService {
-    private final TaskRepository repository;
-    private final TaskValidator validator;
-    private final TaskNotifier taskNotifier;
+public class TaskServiceImpl extends AbstractTaskService {
+    public static final Comparator<Task> DEFAULT_TASK_SORT = Comparator.comparing(Task::getDeadline);
+    private static final int MIN_TITLE_LENGTH = 3;
 
-    public static TaskService create(TaskRepository repository, TaskValidator validator, TaskNotifier taskNotifier) {
-        return new TaskServiceImpl(repository, validator, taskNotifier);
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        super(taskRepository);
     }
 
-    private TaskServiceImpl(TaskRepository repository, TaskValidator validator, TaskNotifier taskNotifier) {
-        this.repository = repository;
-        this.validator = validator;
-        this.taskNotifier = taskNotifier;
-    }
-
-    @Override
-    public Task save(Task task) {
-        if (task == null) {
-            throw new IllegalArgumentException("A tarefa não pode ser nula.");
+    private static void validateTitle(String title) {
+        if (title == null || title.isBlank() || title.length() < MIN_TITLE_LENGTH) {
+            throw new IllegalArgumentException("Título inválido: '" + title + "'. Deve ter pelo menos " + MIN_TITLE_LENGTH + " caracteres.");
         }
-        validator.validate(task);
-        Task savedTask = repository.save(task);
-        return savedTask;
+    }
+
+    private static void validateDeadline(LocalDate deadline) {
+        if (deadline == null || deadline.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Data inválida: '" + deadline + "'. Deve ser maior ou igual à data atual.");
+        }
+    }
+
+    private static void validateStatus(Task.Status status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status inválido: não pode ser nulo.");
+        }
     }
 
     @Override
     public List<Task> findAll(Optional<Comparator<Task>> orderBy) {
-        List<Task> tasks = repository.findAll();
-        return orderBy.map(comparator -> tasks.stream()
-                        .sorted(comparator)
-                        .collect(Collectors.toList()))
-                .orElse(tasks);
+        return taskRepository.findAll().stream().sorted(orderBy.orElse(DEFAULT_TASK_SORT)).toList();
     }
 
     @Override
     public List<Task> findByStatus(Task.Status status, Optional<Comparator<Task>> orderBy) {
-        List<Task> tasks = repository.findByStatus(status);
-        return orderBy.map(comparator -> tasks.stream()
-                        .sorted(comparator)
-                        .collect(Collectors.toList()))
-                .orElse(tasks);
+        return taskRepository.findByStatus(status).stream().sorted(orderBy.orElse(DEFAULT_TASK_SORT)).toList();
     }
 
     @Override
     public List<Task> findBy(Predicate<Task> predicate, Optional<Comparator<Task>> orderBy) {
-        List<Task> tasks = repository.findBy(predicate);
-        return orderBy.map(comparator -> tasks.stream()
-                        .sorted(comparator)
-                        .collect(Collectors.toList()))
-                .orElse(tasks);
+        var stream = taskRepository.findBy(predicate).stream();
+
+        if (orderBy.isPresent()) {
+            stream = stream.sorted(orderBy.get());
+        }
+
+        return stream.toList();
     }
 
     @Override
-    public Optional<Task> findById(Long id) {
-        return repository.findById(id);
-    }
+    public void validate(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("Task não pode ser nula");
+        }
 
-    @Override
-    public boolean deleteById(Long id) {
-        return repository.deleteById(id);
-    }
-
-    @Override
-    public void clearAll() {
-        repository.deleteAll();
-    }
-
-    @Override
-    public Task updateTask(TaskUpdateRequest updateRequest) {
-        Task existingTask = getById(updateRequest.getId());
-        existingTask.setTitle(updateRequest.getTitle());
-        existingTask.setDescription(updateRequest.getDescription());
-        existingTask.setDeadline(updateRequest.getDeadline());
-        validator.validate(existingTask);
-        return repository.save(existingTask);
-    }
-
-    @Override
-    public Task updateStatus(Long id, Task.Status newStatus) {
-        Task existingTask = getById(id);
-        existingTask.setStatus(newStatus);
-        return repository.save(existingTask);
-    }
-
-    @Override
-    public void stopNotifier() {
-        taskNotifier.stop();
-    }
-
-    @Override
-    public void startNotifier() {
-        taskNotifier.start();
+        validateTitle(task.getTitle());
+        validateDeadline(task.getDeadline());
+        validateStatus(task.getStatus());
     }
 }

@@ -2,8 +2,8 @@ package br.com.ada.t1322.tecnicasprogramacao.projeto.view.command;
 
 import br.com.ada.t1322.tecnicasprogramacao.projeto.controller.TaskController;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.model.Task;
-import br.com.ada.t1322.tecnicasprogramacao.projeto.view.View;
 import br.com.ada.t1322.tecnicasprogramacao.projeto.service.TaskComparators;
+import br.com.ada.t1322.tecnicasprogramacao.projeto.view.View;
 
 import java.util.Comparator;
 import java.util.List;
@@ -40,7 +40,8 @@ public class FilterTasksByCustomPredicateCommand implements Command {
         view.showMessage("1 - Por Data Limite");
         view.showMessage("2 - Por Título");
         view.showMessage("3 - Por Status");
-        view.showMessage("4 - Sem ordenação");
+        view.showMessage("4 - Por ID");
+        view.showMessage("5 - Sem ordenação");
 
         int option = view.getIntInput("Digite o número da opção");
 
@@ -54,6 +55,7 @@ public class FilterTasksByCustomPredicateCommand implements Command {
         String criteria = switch (option) {
             case 2 -> "title";
             case 3 -> "status";
+            case 4 -> "id";
             default -> "deadline";
         };
 

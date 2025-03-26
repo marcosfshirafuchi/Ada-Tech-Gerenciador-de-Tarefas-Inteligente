@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ConsoleApp {
 
-    private final View view;
+    private final br.com.ada.t1322.tecnicasprogramacao.projeto.view.View view;
     private final Map<Integer, Command> commands = new HashMap<>();
 
     public ConsoleApp(View view, TaskController taskController) {
@@ -20,8 +20,7 @@ public class ConsoleApp {
         commands.put(4, new ListTasksCommand(view, taskController));
         commands.put(5, new FilterTasksByStatusCommand(view, taskController));
         commands.put(6, new FilterTasksByCustomPredicateCommand(view, taskController));
-        commands.put(7, new ShowNotificationsCommand(view));
-        commands.put(8, new ExitCommand(view));
+        commands.put(7, new ExitCommand(view));
     }
 
     public void run() {
@@ -40,7 +39,6 @@ public class ConsoleApp {
         view.showMessage("4 - Listar Tarefas Ordenadas");
         view.showMessage("5 - Filtrar por Status");
         view.showMessage("6 - Buscar por Palavra-chave");
-        view.showMessage("7 - Exibir Notificações 🔔");
-        view.showMessage("8 - Sair");
+        view.showMessage("7 - Sair");
     }
 }
