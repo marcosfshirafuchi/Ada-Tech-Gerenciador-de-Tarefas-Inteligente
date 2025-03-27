@@ -50,7 +50,7 @@ public class FilterTasksByStatusCommand implements Command {
 
         int option = view.getIntInput("Digite o número da opção");
 
-        if (option == 4) {
+        if (option == 5) {
             return Optional.empty();
         }
 
