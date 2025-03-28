@@ -63,5 +63,7 @@ Para resolver esse desafio, recomenda-se o uso dos seguintes recursos:
 Boa sorte e mãos à obra! 💻🔥
 
 ## Diagrama de classes
-
+<p align = center>
 <a href="https://ibb.co/DHyv3DVB"><img src="https://i.ibb.co/VcZzXWjF/Ada-Tech-Gerenciador-de-Tarefas-Inteligente.jpg" alt="Ada-Tech-Gerenciador-de-Tarefas-Inteligente" border="0"></a>
+</p>
+
