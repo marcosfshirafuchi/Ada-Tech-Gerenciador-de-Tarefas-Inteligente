@@ -1,8 +1,6 @@
 # <a href="https://imgbb.com/"><img src="https://i.ibb.co/wNCRx9z/image-2025-01-04-T23-13-02-901-Z.png" alt="image-2025-01-04-T23-13-02-901-Z" border="0" width =150 heigth = 100></a> Desenvolva + : Gerenciador de Tarefas Inteligente
 
 #### Desenvolvido na linguagem Java por:
-- [Aline Wornath](https://github.com/AlineWornath)
-- [Bruno Madureira](https://github.com/brumadu)
 - [Marcos Shirafuchi](https://github.com/marcosfshirafuchi)
 
 # Principais Tecnologias
@@ -65,3 +63,5 @@ Para resolver esse desafio, recomenda-se o uso dos seguintes recursos:
 Boa sorte e mãos à obra! 💻🔥
 
 ## Diagrama de classes
+
+<a href="https://ibb.co/DHyv3DVB"><img src="https://i.ibb.co/VcZzXWjF/Ada-Tech-Gerenciador-de-Tarefas-Inteligente.jpg" alt="Ada-Tech-Gerenciador-de-Tarefas-Inteligente" border="0"></a>
